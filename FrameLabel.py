@@ -102,7 +102,7 @@ class FrameLabel(QLabel):
         self.menu.addAction(action)
         self.menu.addSeparator()
         # Create image processing menu object
-        menu_imgProc = QMenu(self)
+        menu_imgProc: QMenu | QMenu = QMenu(self)
         menu_imgProc.setTitle("Image Processing")
         self.menu.addMenu(menu_imgProc)
         # Add actions
@@ -128,6 +128,11 @@ class FrameLabel(QLabel):
         menu_imgProc.addAction(action)
         action = QAction(self)
         action.setText("Canny")
+        action.setCheckable(True)
+        menu_imgProc.addAction(action)
+        menu_imgProc.addSeparator()
+        action = QAction(self)
+        action.setText("Cars")
         action.setCheckable(True)
         menu_imgProc.addAction(action)
         menu_imgProc.addSeparator()

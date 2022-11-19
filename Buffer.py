@@ -91,7 +91,7 @@ class Buffer(object):
                     self.clearBuffer_get.release()
                 else:
                     return False
-                # Allow add method to resume
+                # Allow adt method to resume
                 self.clearBuffer_add.release()
                 return True
             else:

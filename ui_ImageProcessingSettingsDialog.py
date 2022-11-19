@@ -652,5 +652,7 @@ class Ui_ImageProcessingSettingsDialog(object):
         self.resetCannyToDefaultsButton.setText(_translate("ImageProcessingSettingsDialog", "Reset to Defaults"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.cannyTab_5), _translate("ImageProcessingSettingsDialog", "Canny"))
         self.applyButton.setText(_translate("ImageProcessingSettingsDialog", "Apply"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.cannyTab_5), _translate("ImageProcessingSettingsDialog", "Cars"))
+        self.applyButton.setText(_translate("ImageProcessingSettingsDialog", "Apply"))
         self.resetAllToDefaultsButton.setText(_translate("ImageProcessingSettingsDialog", "Reset All to Defaults"))
 

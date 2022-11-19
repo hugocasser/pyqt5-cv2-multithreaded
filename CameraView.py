@@ -106,7 +106,7 @@ class CameraView(QWidget, Ui_CameraView):
 
             # Set initial data in processing thread
             self.setROI.emit(
-                QRect(0, 0, self.captureThread.getInputSourceWidth(), self.captureThread.getInputSourceHeight()))
+                QRect(0, 0, int(self.captureThread.getInputSourceWidth()), int(self.captureThread.getInputSourceHeight())))
             self.newImageProcessingFlags.emit(self.imageProcessingFlags)
             self.imageProcessingSettingsDialog.updateStoredSettingsFromDialog()
 
@@ -283,7 +283,7 @@ class CameraView(QWidget, Ui_CameraView):
     def handleContextMenuAction(self, action):
         if action.text() == "Reset ROI":
             self.setROI.emit(
-                QRect(0, 0, self.captureThread.getInputSourceWidth(), self.captureThread.getInputSourceHeight()))
+                QRect(0, 0, int(self.captureThread.getInputSourceWidth()), int(self.captureThread.getInputSourceHeight())))
         elif action.text() == "Scale to Fit Frame":
             self.frameLabel.setScaledContents(action.isChecked())
         elif action.text() == "Grayscale":
@@ -303,6 +303,9 @@ class CameraView(QWidget, Ui_CameraView):
             self.newImageProcessingFlags.emit(self.imageProcessingFlags)
         elif action.text() == "Canny":
             self.imageProcessingFlags.cannyOn = action.isChecked()
+            self.newImageProcessingFlags.emit(self.imageProcessingFlags)
+        elif action.text() == "Cars":
+            self.imageProcessingFlags.carsOn = action.isChecked()
             self.newImageProcessingFlags.emit(self.imageProcessingFlags)
         elif action.text() == "Settings...":
             self.setImageProcessingSettings()

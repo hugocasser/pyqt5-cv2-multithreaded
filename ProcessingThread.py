@@ -1,7 +1,13 @@
+import os
+
 from PyQt5.QtCore import QThread, QMutex, QTime, qDebug, QMutexLocker, pyqtSignal
 from PyQt5.QtGui import QImage
 from queue import Queue
 import cv2
+from matplotlib import pyplot as pltd
+import numpy as np
+from art import tprint
+from objects_on_image import carsdetect
 
 from MatToQImage import matToQImage
 from Structures import *
@@ -35,6 +41,7 @@ class ProcessingThread(QThread):
         self.statsData = ThreadStatisticsData()
         self.frame = None
         self.currentFrame = None
+
 
     def run(self):
         while True:
@@ -117,6 +124,18 @@ class ProcessingThread(QThread):
                                                   threshold2=self.imgProcSettings.cannyThreshold2,
                                                   apertureSize=self.imgProcSettings.cannyApertureSize,
                                                   L2gradient=self.imgProcSettings.cannyL2gradient)
+                if self.imgProcFlags.carsOn:
+                    gray = cv2.cvtColor(self.currentFrame, cv2.COLOR_BGR2GRAY)
+                    blurred = cv2.GaussianBlur(gray, (3, 3), 0)
+                    T, thresh_img = cv2.threshold(blurred, 150, 255,
+                                                      cv2.THRESH_BINARY)
+                    counts = cv2.findContours(thresh_img,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    for cout in counts:
+                        print(cout)
+
+
+
+
 
                 ##################################
                 # PERFORM IMAGE PROCESSING ABOVE #
@@ -179,6 +198,7 @@ class ProcessingThread(QThread):
             self.imgProcFlags.erodeOn = imgProcFlags.erodeOn
             self.imgProcFlags.flipOn = imgProcFlags.flipOn
             self.imgProcFlags.cannyOn = imgProcFlags.cannyOn
+            self.imgProcFlags.carsOn = imgProcFlags.carsOn
 
     def updateImageProcessingSettings(self, imgProcSettings):
         with QMutexLocker(self.processingMutex):
@@ -204,3 +224,5 @@ class ProcessingThread(QThread):
 
     def getCurrentROI(self):
         return QRect(self.currentROI.x(), self.currentROI.y(), self.currentROI.width(), self.currentROI.height())
+
+
